@@ -1,5 +1,5 @@
 {
-    "name": "kodify-chat",
+    "name": "kodify-client-chat-app",
     "version": "0.1.0",
     "private": true,
     "dependencies": {

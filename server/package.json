@@ -2,7 +2,7 @@
     "dependencies": {
         "express": "^4.18.1"
     },
-    "name": "server",
+    "name": "kodify-server-chat-app",
     "version": "1.0.0",
     "main": "index.js",
     "devDependencies": {
