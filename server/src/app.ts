@@ -1,5 +1,5 @@
 import express, { Application, Request, Response, NextFunction } from 'express';
-import authRouter from './routes/auth';
+import loginRouter from './routes/login';
 import messageRouter from './routes/message';
 import dotenv from 'dotenv';
 import cors from 'cors';
@@ -14,7 +14,7 @@ app.get('/', (req: Request, res: Response, next: NextFunction) => {
 	res.send('***Kodify Chat App***');
 });
 
-app.use('/api/auth', authRouter);
+app.use('/api/auth', loginRouter);
 app.use('/api/message', messageRouter);
 
 app.listen(PORT, () => console.log(`Server running on ${PORT}`));

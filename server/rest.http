@@ -1,0 +1,21 @@
+### Login
+POST http://localhost:5000/api/auth/login
+Content-Type: application/json
+
+{
+	"email": "majek1@hotmail.com",
+	"password": "steven"
+}
+
+### Post Message
+POST http://localhost:5000/api/message/addMessage
+Content-Type: application/json
+
+{
+	"email": "majek1@hotmail.com",
+	"password": "steven"
+}
+
+### Get Message
+GET  http://localhost:5000/api/message/getMessage
+Content-Type: application/json

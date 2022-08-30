@@ -1,0 +1,24 @@
+import express, { Request, Response, NextFunction } from 'express';
+import jwt from 'jsonwebtoken';
+import ChatError from '../formatter/erros';
+import { findUserByEmailAndPassword } from '../repo/user';
+
+const loginRouter = express.Router();
+
+const generateToken = (email: string | object | Buffer): string => {
+	return jwt.sign(email, process.env.TOKEN_SECRET as string, {
+		expiresIn: '3600s'
+	})
+}
+
+loginRouter.post('/login', async (req: Request, res: Response, next: NextFunction) => {
+	const { email, password } = req.body;
+	const user = await findUserByEmailAndPassword(email, password);
+	if (user) {
+		const token = generateToken({ email });
+		return res.json({ token });
+	}
+	return ChatError.badRequest(res, 'Invalid user');
+});
+
+export default loginRouter;

@@ -31,6 +31,7 @@ export const FormContainer = styled.div`
     background-color: ${themeColor.primary[100]};
     border-radius: 0.5rem;
     padding: 5rem;
+    max-height: 350px;
   }
   input {
     padding: 1rem;
@@ -56,6 +57,7 @@ export const FormContainer = styled.div`
     text-transform: uppercase;
     &:hover {
       background-color: ${themeColor.primary[100]};
+      border: 1px solid ${themeColor.primary[200]};
     }
   }
 `;
