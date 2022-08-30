@@ -2,12 +2,14 @@ const pool = require("./index");
 
 const users = [
   {
-    id: 1,
-    name: "Steven",
+    nickname: null,
+    email: "majek1@hotmail.com",
+    password: "steven",
   },
   {
-    id: 2,
-    name: "kody",
+    nickname: null,
+    email: "kody@hotmail.com",
+    password: "kody",
   },
 ];
 
@@ -16,9 +18,11 @@ const insertDummyData = async () => {
 
   try {
     await connection.beginTransaction();
-    await connection.query("INSERT INTO user (name) VALUES ?", [
+    await connection.query("INSERT INTO user (nickname, email, password) VALUES ?", [
       users.map((user) => [
-        user.name
+        user.nickname,
+        user.email,
+        user.password
       ]),
     ]);
     await connection.commit();
