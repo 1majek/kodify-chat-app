@@ -7,9 +7,12 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 To get started, you can run:
 
 ### `cd client && npm run prepare`
-Setup the git hooks (we use [Husky](https://www.npmjs.com/package/husky)
+Setup the git hooks (we use [Husky](https://www.npmjs.com/package/husky))
 
-To get started, you can run:
+### Insert 2 users to local database
+
+- Run `npm run seeder:up` to insert populate user table
+- Run `npm run seeder:down` to delete user table
 
 ### `cd client && npm run build`
 
