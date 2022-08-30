@@ -11,7 +11,7 @@ Setup the git hooks (we use [Husky](https://www.npmjs.com/package/husky))
 
 ### Insert 2 users to local database
 
-- Run `npm run seeder:up` to insert populate user table
+- Run `npm run seeder:up` to populate user table
 - Run `npm run seeder:down` to delete user table
 
 ### `cd client && npm run build`
