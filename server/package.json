@@ -1,6 +1,8 @@
 {
     "dependencies": {
-        "express": "^4.18.1"
+        "dotenv": "^16.0.1",
+        "express": "^4.18.1",
+        "mysql2": "^2.3.3"
     },
     "name": "kodify-server-chat-app",
     "version": "1.0.0",
@@ -8,6 +10,7 @@
     "devDependencies": {
         "@types/express": "^4.17.13",
         "@types/node": "^18.7.13",
+        "db-migrate-mysql": "^2.2.0",
         "nodemon": "^2.0.19",
         "ts-node": "^10.9.1",
         "typescript": "^4.8.2"
@@ -16,7 +19,12 @@
         "start": "node dist/app.js",
         "dev": "nodemon src/app.ts",
         "build": "tsc -p .",
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "db-migrate:create": "db-migrate create --config ./config/database.json -m ./data/migrations --sql-file -e local",
+        "db-migrate:up": "db-migrate up --config ./config/database.json -m ./data/migrations -e local",
+        "db-migrate:down": "db-migrate down --config ./config/database.json -m ./data/migrations -e local",
+        "seeder:up": "node src/database/up-seeder.js",
+        "seeder:down": "node src/database/down-seeder.js"
     },
     "keywords": [],
     "author": "",
