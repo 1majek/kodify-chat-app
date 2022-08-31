@@ -69,6 +69,6 @@ button {
 }
 
 button:hover {
-    background-color: var(--secondary);
-    border: 1px solid var(--primary);
+    background-color: transparent;
+    border: 1px solid var(--secondary);
 }
