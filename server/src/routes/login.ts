@@ -13,12 +13,17 @@ const generateToken = (email: string | object | Buffer): string => {
 
 loginRouter.post('/login', async (req: Request, res: Response, next: NextFunction) => {
 	const { email, password } = req.body;
-	const user = await findUserByEmailAndPassword(email, password);
-	if (user) {
-		const token = generateToken({ email });
-		return res.json({ token });
+	try {
+		const user = await findUserByEmailAndPassword(email, password);
+		if (user) {
+			const token = generateToken({ email });
+			return res.json({ token });
+		}
+		return ChatError.badRequest(res, 'Invalid user');
+	} catch (error) {
+		console.log('🚀 > error', error)
+		return ChatError.badRequest(res, 'An unexpected error has occured');
 	}
-	return ChatError.badRequest(res, 'Invalid user');
 });
 
 export default loginRouter;
