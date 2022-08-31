@@ -10,10 +10,11 @@ Content-Type: application/json
 ### Post Message
 POST http://localhost:5000/api/message/addMessage
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1hamVrMUBob3RtYWlsLmNvbSIsImlhdCI6MTY2MTk2ODE0NSwiZXhwIjoxNjYxOTcxNzQ1fQ.edyCnv9HSEC3QrR5Fzdv_mIRpG_vWDfDtC3JXVkmyq4
 
 {
-	"email": "majek1@hotmail.com",
-	"password": "steven"
+	"content": "How are you?",
+	"userId": 1
 }
 
 ### Get Message
