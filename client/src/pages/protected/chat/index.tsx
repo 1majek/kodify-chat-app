@@ -14,12 +14,21 @@ const Chat = () => {
     }
   });
 
+  const handleSendMessage = (event: React.ChangeEvent<HTMLInputElement>) => {};
+
   return (
     <div className={styles.chatContainer}>
       <span onClick={logout}>Logout</span>
       <div className={styles.chatBox}>
         <MessageDisplay />
-        <input className={styles.chatInput} type="text" />
+        <div className={styles.inputWrapper}>
+          <input
+            onChange={handleSendMessage}
+            className={styles.chatInput}
+            type="text"
+          />
+          <button className={styles.sendBtn}>Send</button>
+        </div>
       </div>
     </div>
   );

@@ -19,10 +19,37 @@
     padding: 10px;
 }
 
+.inputWrapper {
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+    justify-content: space-between;
+    width: 100%;
+}
+
 .chatInput {
     padding: 1rem;
     border: 1px solid white;
     border-radius: 0.4rem;
     color: var(--secondary);
     font-size: 1rem;
+    flex-grow: 1;
+}
+
+.sendBtn {
+    background-color: var(--secondary);
+    color: white;
+    padding: 1rem 2rem;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 0.4rem;
+    font-size: 1rem;
+    text-transform: uppercase;
+    flex-grow: 0.2;
+}
+
+.sendBtn:hover {
+    background-color: transparent;
+    border: 1px solid var(--secondary);
 }
