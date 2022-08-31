@@ -45,19 +45,24 @@ const Login = () => {
   };
 
   return (
-    <section className={styles.section}>
+    <div className={styles.loginContainer}>
       <form
-        className={styles.form}
+        className={styles.loginForm}
         action="sumbit"
         onSubmit={(event) => handleSubmit(event)}
       >
         <div className={styles.brand}>
-          <img src="images/chat-logo.png" alt="logo" />
-          <h1>Kodify Chat</h1>
+          <img
+            className={styles.brandImg}
+            src="images/chat-logo.png"
+            alt="logo"
+          />
+          <h1 className={styles.loginTitle}>Kodify Chat</h1>
         </div>
 
         <div className={styles.inputField}>
           <input
+            className={styles.loginInput}
             type="text"
             placeholder="kodify@hotmail.com"
             name="email"
@@ -69,6 +74,7 @@ const Login = () => {
             )}
 
           <input
+            className={styles.loginInput}
             type="password"
             placeholder="111111"
             name="password"
@@ -80,14 +86,18 @@ const Login = () => {
             )}
         </div>
 
-        <button type="submit" disabled={!inputValidation.success}>
+        <button
+          className={styles.loginBtn}
+          type="submit"
+          disabled={!inputValidation.success}
+        >
           Login
         </button>
         {error && <span>{error}</span>}
         {loading && <span>Loading</span>}
         {token && <span>Logged in successfully</span>}
       </form>
-    </section>
+    </div>
   );
 };
 
