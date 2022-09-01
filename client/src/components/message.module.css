@@ -6,3 +6,25 @@
     height: 90%;
     background-color: white;
 }
+
+.message {
+    margin-top: 10px;
+}
+
+.sender {
+    background-color: greenyellow;
+    justify-content: flex-end;
+    float: right;
+}
+
+.receiver {
+    background-color: gray;
+    justify-content: flex-start;
+    float: left;
+}
+
+.bubbleChat {
+    font-size: 1.1rem;
+    padding: 5px 10px;
+    margin: 0px 10px;
+}

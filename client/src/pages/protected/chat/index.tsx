@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import MessageDisplay from "../../../components/MessageDisplay";
 import { useAuth } from "../../../hook/useAuth";
+import { useLoginContext } from "../../../redux/selector";
 import { Message } from "../../../shared/models";
 import { axiosInstance } from "../../../utils/axios";
 import styles from "./chat.module.css";
@@ -10,6 +11,7 @@ const Chat = () => {
   const navigate = useNavigate();
   const { localToken, logout } = useAuth();
   const [messages, setMessages] = useState<Message[]>([]);
+  const { user } = useLoginContext();
 
   useEffect(() => {
     if (!localToken) {
@@ -40,7 +42,7 @@ const Chat = () => {
     <div className={styles.chatContainer}>
       <span onClick={logout}>Logout</span>
       <div className={styles.chatBox}>
-        <MessageDisplay messages={messages} />
+        <MessageDisplay user={user} messages={messages} />
         <div className={styles.inputWrapper}>
           <input
             onChange={handleSendMessage}
