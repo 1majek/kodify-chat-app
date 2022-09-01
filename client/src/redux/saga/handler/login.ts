@@ -7,12 +7,12 @@ import { LoginRequest } from "../../actions";
 import { AUTH_TOKEN } from "./../../../shared/constants/index";
 
 // Dispaches LOGIN_SUCCESS to obten TOKEN from the API
-// Then stores user object to localstorage
+// Then stores user object to sessionStorage
 // In case of an error it dispaches LOGIN_FAILURE action
 export function* handleLoginSaga(action: LoginRequest) {
   try {
     const { data } = yield call(loginSagaRequest, action.payload);
-    localStorage.setItem(AUTH_TOKEN, JSON.stringify(data));
+    sessionStorage.setItem(AUTH_TOKEN, JSON.stringify(data));
     yield put(loginSuccess(data));
   } catch (error) {
     if (isAxiosError<Problem>(error) && error.response) {
