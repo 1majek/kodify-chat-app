@@ -11,7 +11,7 @@ const Login = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { localToken } = useAuth();
-  const { loading, error, token } = useLoginContext();
+  const { loading, error, user } = useLoginContext();
 
   const [loginInput, setLoginInput] = useState<LoginInput>({
     email: "",
@@ -95,7 +95,7 @@ const Login = () => {
         </button>
         {error && <span>{error}</span>}
         {loading && <span>Loading</span>}
-        {token && <span>Logged in successfully</span>}
+        {user?.token && <span>Logged in successfully</span>}
       </form>
     </div>
   );

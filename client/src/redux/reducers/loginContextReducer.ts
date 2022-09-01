@@ -7,7 +7,7 @@ import { Reducer } from "redux";
 import { AuthActions, AuthState } from "../actions";
 
 const initialState: AuthState = {
-  token: null,
+  user: null,
   loading: false,
   error: null,
 };
@@ -25,14 +25,14 @@ const loginContextReducer: Reducer<AuthState, AuthActions> = (
     case LOGIN_SUCCESS:
       return {
         ...state,
-        token: action.payload.token,
+        user: action.payload.user,
         loading: false,
         error: null,
       };
     case LOGIN_FAILURE:
       return {
         ...state,
-        token: null,
+        user: null,
         loading: false,
         error: action.payload.error,
       };

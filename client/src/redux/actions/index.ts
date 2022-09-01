@@ -1,9 +1,10 @@
+import { User } from "../../shared/models";
 import { LoginInput } from "../../shared/validators/auth";
 import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE } from "./types";
 
 // LOGIN
 export interface AuthState {
-  token: string | null;
+  user: User | null;
   loading: boolean;
   error: string | null;
 }
@@ -16,7 +17,7 @@ export interface LoginRequest {
 export interface LoginSuccess {
   type: typeof LOGIN_SUCCESS;
   payload: {
-    token: string;
+    user: User;
   };
 }
 

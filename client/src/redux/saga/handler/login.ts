@@ -9,10 +9,8 @@ import { LoginRequest } from "../../actions";
 // In case of an error it dispaches LOGIN_FAILURE action
 export function* handleLoginSaga(action: LoginRequest) {
   try {
-    const {
-      data: { token },
-    } = yield call(loginSagaRequest, action.payload);
-    yield put(loginSuccess(token));
+    const { data } = yield call(loginSagaRequest, action.payload);
+    yield put(loginSuccess(data));
   } catch (error) {
     if (isAxiosError<Problem>(error) && error.response) {
       yield put(loginFailure(error.response.data.message));

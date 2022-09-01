@@ -17,7 +17,8 @@ loginRouter.post('/login', async (req: Request, res: Response, next: NextFunctio
 		const user = await findUserByEmailAndPassword(email, password);
 		if (user) {
 			const token = generateToken({ email });
-			return res.json({ token });
+			user.token = token;
+			return res.json(user);
 		}
 		return ChatError.badRequest(res, 'Invalid user');
 	} catch (error) {
