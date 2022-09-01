@@ -7,8 +7,8 @@ export interface User {
 }
 
 export interface Message {
-  id: number;
+  id?: number;
   content: string;
   userId: number;
-  createdAt: string;
+  createdAt?: string;
 }

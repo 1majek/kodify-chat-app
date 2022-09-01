@@ -5,10 +5,12 @@
     width: 100%;
     height: 90%;
     background-color: white;
+    overflow: auto;
 }
 
 .message {
     margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 .sender {

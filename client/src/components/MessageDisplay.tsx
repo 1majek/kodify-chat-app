@@ -6,9 +6,10 @@ import classNames from "./../../node_modules/classnames/dedupe.d";
 interface Props {
   user: User | null;
   messages: Message[];
+  messageContentRef: React.RefObject<HTMLInputElement>;
 }
 
-const MessageDisplay: FC<Props> = ({ user, messages }) => {
+const MessageDisplay: FC<Props> = ({ user, messages, messageContentRef }) => {
   const chatStyle = (userId: number) =>
     classNames(
       styles.bubbleChat,
@@ -22,7 +23,11 @@ const MessageDisplay: FC<Props> = ({ user, messages }) => {
   return (
     <div className={styles.messageContent}>
       {messages.map((message) => (
-        <div key={message.id} className={styles.message}>
+        <div
+          ref={messageContentRef}
+          key={message.id}
+          className={styles.message}
+        >
           <div className={chatStyle(message.userId)}>
             <span>{message.content}</span>
           </div>

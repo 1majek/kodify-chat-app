@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import MessageDisplay from "../../../components/MessageDisplay";
 import { useAuth } from "../../../hook/useAuth";
@@ -10,6 +10,7 @@ const Chat = () => {
   const navigate = useNavigate();
   const { user, logout } = useAuth();
   const [messages, setMessages] = useState<Message[]>([]);
+  const messageContentRef = useRef<HTMLInputElement>(null);
   const [content, setContent] = useState("");
 
   useEffect(() => {
@@ -43,17 +44,22 @@ const Chat = () => {
     setContent(event.target.value);
   };
 
-  const handleSendMessage = async (
-    event: React.MouseEvent<HTMLButtonElement>
-  ) => {
+  useEffect(() => {
+    messageContentRef.current?.scrollIntoView({ behavior: "smooth" });
+  });
+
+  const handleSendMessage = async () => {
     try {
-      await axiosInstance(user?.token).post<Message>(
-        "/api/message/addMessage",
-        {
-          content,
-          userId: user?.id,
-        }
-      );
+      if (user) {
+        const newMessage: Message = { content, userId: user.id };
+        await axiosInstance(user?.token).post<Message>(
+          "/api/message/addMessage",
+          newMessage
+        );
+        // scroll down
+        messageContentRef.current?.scrollIntoView({ behavior: "smooth" });
+        setMessages([...messages, newMessage]);
+      }
     } catch (error) {
       console.log("🚀 > error", error);
     }
@@ -64,7 +70,11 @@ const Chat = () => {
     <div className={styles.chatContainer}>
       <span onClick={logout}>Logout</span>
       <div className={styles.chatBox}>
-        <MessageDisplay user={user} messages={messages} />
+        <MessageDisplay
+          user={user}
+          messages={messages}
+          messageContentRef={messageContentRef}
+        />
         <div className={styles.inputWrapper}>
           <input
             type="text"
