@@ -10,8 +10,8 @@ import styles from "./login.module.css";
 const Login = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { localToken } = useAuth();
-  const { loading, error, user } = useLoginContext();
+  const { user } = useAuth();
+  const { loading, error } = useLoginContext();
 
   const [loginInput, setLoginInput] = useState<LoginInput>({
     email: "",
@@ -20,10 +20,10 @@ const Login = () => {
 
   // redirect to chat page when login is successfull
   useEffect(() => {
-    if (localToken) {
+    if (user?.token) {
       navigate("/chat");
     }
-  }, [localToken, navigate]);
+  }, [user?.token, navigate]);
 
   // Validate user inputs
   const inputValidation = LoginInput.safeParse(loginInput);

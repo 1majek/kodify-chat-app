@@ -2,19 +2,18 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import MessageDisplay from "../../../components/MessageDisplay";
 import { useAuth } from "../../../hook/useAuth";
-import { useLoginContext } from "../../../redux/selector";
 import { Message } from "../../../shared/models";
 import { axiosInstance } from "../../../utils/axios";
 import styles from "./chat.module.css";
 
 const Chat = () => {
   const navigate = useNavigate();
-  const { localToken, logout } = useAuth();
+  const { user, logout } = useAuth();
   const [messages, setMessages] = useState<Message[]>([]);
-  const { user } = useLoginContext();
+  const [content, setContent] = useState("");
 
   useEffect(() => {
-    if (!localToken) {
+    if (!user) {
       navigate("/");
     }
   });
@@ -23,8 +22,8 @@ const Chat = () => {
   useEffect(() => {
     const fetchMessages = async () => {
       try {
-        if (localToken) {
-          const { data } = await axiosInstance(localToken).get<Message[]>(
+        if (user?.token) {
+          const { data } = await axiosInstance(user.token).get<Message[]>(
             "/api/message/getMessages"
           );
           setMessages(data);
@@ -34,9 +33,32 @@ const Chat = () => {
       }
     };
     fetchMessages();
-  }, [localToken]);
+  }, [user?.token]);
 
-  const handleSendMessage = (event: React.ChangeEvent<HTMLInputElement>) => {};
+  const clearChatInput = () => {
+    setContent("");
+  };
+
+  const handleOnChangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setContent(event.target.value);
+  };
+
+  const handleSendMessage = async (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    try {
+      await axiosInstance(user?.token).post<Message>(
+        "/api/message/addMessage",
+        {
+          content,
+          userId: user?.id,
+        }
+      );
+    } catch (error) {
+      console.log("🚀 > error", error);
+    }
+    clearChatInput();
+  };
 
   return (
     <div className={styles.chatContainer}>
@@ -45,11 +67,14 @@ const Chat = () => {
         <MessageDisplay user={user} messages={messages} />
         <div className={styles.inputWrapper}>
           <input
-            onChange={handleSendMessage}
-            className={styles.chatInput}
             type="text"
+            onChange={handleOnChangeInput}
+            value={content}
+            className={styles.chatInput}
           />
-          <button className={styles.sendBtn}>Send</button>
+          <button onClick={handleSendMessage} className={styles.sendBtn}>
+            Send
+          </button>
         </div>
       </div>
     </div>
