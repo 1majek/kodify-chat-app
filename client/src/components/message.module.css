@@ -15,13 +15,11 @@
 
 .sender {
     background-color: greenyellow;
-    justify-content: flex-end;
     float: right;
 }
 
 .receiver {
     background-color: gray;
-    justify-content: flex-start;
     float: left;
 }
 
