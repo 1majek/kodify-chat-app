@@ -10,6 +10,9 @@ Then initialize the database base with the following command.
 - Run `npm run seeder:up` to populate user table
 - Run `npm run seeder:down` to truncate user table
 
+### Create .env file in client and server folder
+Copy values from .env.local.example
+
 ### `cd client && npm run prepare`
 Setup the git hooks (we use [Husky](https://www.npmjs.com/package/husky))
 
