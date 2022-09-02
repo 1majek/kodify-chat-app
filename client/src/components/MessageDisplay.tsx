@@ -23,6 +23,13 @@ const MessageDisplay: FC<Props> = ({
       user?.id === userId ? styles.sender : styles.receiver
     );
 
+  const getContentMessage = (message: Message) => {
+    const result = message.content
+      .replace("(smile)", String.fromCodePoint(128515))
+      .replace("(wink)", String.fromCodePoint(128521));
+    return result;
+  };
+
   if (!user) {
     return null;
   }
@@ -32,8 +39,12 @@ const MessageDisplay: FC<Props> = ({
       {messages.map((message) => (
         <div ref={messageContentRef} key={uuidv4()} className={styles.message}>
           <div className={chatStyle(message.userId)}>
-            <span className={`${message.style && message.style}`}>
-              {message.content}
+            <span
+              role="img"
+              aria-label="emoji"
+              className={`${message.style && message.style}`}
+            >
+              {getContentMessage(message)}
             </span>
           </div>
         </div>
