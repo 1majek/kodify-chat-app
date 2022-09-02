@@ -5,8 +5,8 @@ import { Message } from '../models';
 
 export const sendMessage = async (message: Message): Promise<boolean> => {
 	const pool = await getPool();
-	const query = 'INSERT INTO message (content, user_id) VALUES (?,?)';
-	const [ResultSetHeader] = await pool.query<ResultSetHeader>(query, [message.content, message.userId]);
+	const query = 'INSERT INTO message (content, user_id, style) VALUES (?,?, ?)';
+	const [ResultSetHeader] = await pool.query<ResultSetHeader>(query, [message.content, message.userId, message.style]);
 	if (ResultSetHeader.affectedRows === 1) {
 		return true;
 	} else {

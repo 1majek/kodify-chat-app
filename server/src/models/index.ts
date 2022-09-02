@@ -10,5 +10,6 @@ export interface Message {
 	id: number;
 	content: string;
 	userId: number;
+	style: string | null;
 	createdAt: string;
 }

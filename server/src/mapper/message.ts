@@ -5,6 +5,7 @@ export const messageMapper = (result: Record<string, any>): Message => {
 		id: result.id,
 		content: result.content,
 		userId: result.user_id,
+		style: result.style ?? null,
 		createdAt: result.created_at.toJSON(),
 	}
 }
