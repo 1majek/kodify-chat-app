@@ -1,18 +1,17 @@
-# Getting Started with Create React App
+### Get started
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+To get started, make sure you create a database on you local machine called `kodify-chat`.
+Then initialize the database base with the following command.
+(All commands should start from the root directory)
 
-## Available Scripts
+- Run `cd server && npm run db-migrate:up`
 
-To get started, you can run:
+### Insert 2 users to local database
+- Run `npm run seeder:up` to populate user table
+- Run `npm run seeder:down` to truncate user table
 
 ### `cd client && npm run prepare`
 Setup the git hooks (we use [Husky](https://www.npmjs.com/package/husky))
-
-### Insert 2 users to local database
-
-- Run `npm run seeder:up` to populate user table
-- Run `npm run seeder:down` to delete user table
 
 ### `cd client && npm run build`
 
@@ -26,3 +25,12 @@ Builds the server app for production to the `build` folder.\
 
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+
+### USERS AND PASSWORDS TO LOGIN
+Steven
+- email: majek1@hotmail.com
+- password: steven
+
+Kody
+-email: kody@hotmail.com
+-password: kody
