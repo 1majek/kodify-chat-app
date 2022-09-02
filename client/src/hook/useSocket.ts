@@ -26,10 +26,6 @@ const useSocket = (
     socket.on("receive_typing", (data) => {
       updateTyping(data);
     });
-
-    socket.on("receive_remove_typing", () => {
-      updateTyping(null);
-    });
   }, []);
 
   const joinRoom = () => {
@@ -44,13 +40,8 @@ const useSocket = (
     socket.emit("send_nickname", { user, room });
   };
 
-  const onSendTyping = (nickname: string | undefined) => {
-    const message = nickname ? `${nickname} is typing` : "typing";
+  const onSendTyping = (message: string | null) => {
     socket.emit("send_typing", { message, room });
-  };
-
-  const onRemoveTyping = () => {
-    socket.emit("remove_typing", { room });
   };
 
   return {
@@ -59,7 +50,6 @@ const useSocket = (
     room,
     sendNickname,
     onSendTyping,
-    onRemoveTyping,
   };
 };
 

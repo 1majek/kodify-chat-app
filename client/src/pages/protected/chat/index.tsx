@@ -28,7 +28,7 @@ const Chat = () => {
     setTyping(content);
   };
 
-  const { sendMessage, sendNickname, onSendTyping, onRemoveTyping } = useSocket(
+  const { sendMessage, sendNickname, onSendTyping } = useSocket(
     updateMessages,
     updateNickname,
     updateTyping
@@ -65,11 +65,11 @@ const Chat = () => {
   // listen to typing
   useEffect(() => {
     if (content) {
-      onSendTyping(userNickname?.nickname);
+      onSendTyping("typing");
     } else {
-      onRemoveTyping();
+      onSendTyping(null);
     }
-  }, [content, onRemoveTyping, onSendTyping, userNickname?.nickname]);
+  }, [content, onSendTyping]);
 
   const clearChatInput = () => {
     setContent("");
