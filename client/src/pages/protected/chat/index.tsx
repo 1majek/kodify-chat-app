@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import MessageDisplay from "../../../components/MessageDisplay";
 import { useAuth } from "../../../hook/useAuth";
-import { Message } from "../../../shared/models";
+import { Message, User } from "../../../shared/models";
 import { axiosInstance } from "../../../utils/axios";
 import styles from "./chat.module.css";
 import useSocket from "./../../../hook/useSocket";
@@ -13,12 +13,21 @@ const Chat = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const messageContentRef = useRef<HTMLInputElement>(null);
   const [content, setContent] = useState("");
+  console.log("🚀 > content", content);
+  const [userNickname, setUserNickname] = useState<User | null>(user);
 
   const updateMessages = (message: Message) => {
     setMessages((state) => [...state, message]);
   };
 
-  const { sendMessage } = useSocket(updateMessages);
+  const updateNickname = (user: User) => {
+    setUserNickname(user);
+  };
+
+  const { sendMessage, sendNickname } = useSocket(
+    updateMessages,
+    updateNickname
+  );
 
   useEffect(() => {
     if (!user) {
@@ -54,7 +63,8 @@ const Chat = () => {
 
   const handleOnChangeInput = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
-      setContent(event.target.value);
+      const { value } = event.target;
+      setContent(value);
     },
     [setContent]
   );
@@ -62,15 +72,27 @@ const Chat = () => {
   const handleSendMessage = async () => {
     try {
       if (user) {
+        // send message through websocket
         const newMessage: Message = { content, userId: user.id };
         sendMessage(newMessage);
+
+        // Save message to database
         await axiosInstance(user?.token).post<Message>(
           "/api/message/addMessage",
           newMessage
         );
+
         // scroll down
         messageContentRef.current?.scrollIntoView({ behavior: "smooth" });
         setMessages([...messages, newMessage]);
+
+        // commands
+        if (content?.startsWith("/nick")) {
+          const nickname = content.split(" ")[1];
+          if (userNickname) {
+            sendNickname({ ...userNickname, nickname });
+          }
+        }
       }
     } catch (error) {
       console.log("🚀 > error", error);
@@ -80,8 +102,13 @@ const Chat = () => {
 
   return (
     <div className={styles.chatContainer}>
-      <span onClick={logout}>Logout</span>
       <div className={styles.chatBox}>
+        <div className={styles.nicknameWrapper}>
+          <span>{userNickname?.nickname}</span>
+          <span className={styles.logout} onClick={logout}>
+            Logout
+          </span>
+        </div>
         <MessageDisplay
           user={user}
           messages={messages}

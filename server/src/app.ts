@@ -4,7 +4,6 @@ import messageRouter from './routes/message';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import { Server } from 'socket.io';
-import { sendMessage } from './repo/message';
 
 dotenv.config();
 
@@ -37,6 +36,10 @@ io.on("connection", (socket) => {
 
 	socket.on('send_message', async (data) => {
 		socket.to(data.room).emit("receive_message", data.message);
+	})
+
+	socket.on('send_nickname', async (data) => {
+		socket.to(data.room).emit("receive_nickname", data.user);
 	})
 
 });

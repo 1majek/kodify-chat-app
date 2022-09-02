@@ -1,9 +1,12 @@
 import { io } from "socket.io-client";
 import { useEffect } from "react";
-import { Message } from "../shared/models";
+import { Message, User } from "../shared/models";
 const socket = io(process.env.REACT_APP_API_BASE_URL || "");
 
-const useSocket = (updateMessages: (Message: Message) => void) => {
+const useSocket = (
+  updateMessages: (Message: Message) => void,
+  updateNickname: (user: User) => void
+) => {
   const room = process.env.REACT_APP_ROOM_NUMBER;
   useEffect(() => {
     // join room
@@ -12,8 +15,11 @@ const useSocket = (updateMessages: (Message: Message) => void) => {
     }
 
     socket.on("receive_message", (data) => {
-      console.log("🚀 > data", data);
       updateMessages(data);
+    });
+
+    socket.on("receive_nickname", (data) => {
+      updateNickname(data);
     });
   }, []);
 
@@ -25,7 +31,11 @@ const useSocket = (updateMessages: (Message: Message) => void) => {
     socket.emit("send_message", { message, room });
   };
 
-  return { sendMessage, joinRoom, room };
+  const sendNickname = (user: User) => {
+    socket.emit("send_nickname", { user, room });
+  };
+
+  return { sendMessage, joinRoom, room, sendNickname };
 };
 
 export default useSocket;

@@ -19,6 +19,16 @@
     padding: 10px;
 }
 
+.nicknameWrapper {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 7px;
+}
+
+.logout {
+    cursor: pointer;
+}
+
 .inputWrapper {
     display: flex;
     flex-direction: row;
