@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import MessageDisplay from "../../../components/MessageDisplay";
 import { useAuth } from "../../../hook/useAuth";
@@ -52,9 +52,12 @@ const Chat = () => {
     setContent("");
   };
 
-  const handleOnChangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setContent(event.target.value);
-  };
+  const handleOnChangeInput = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      setContent(event.target.value);
+    },
+    [setContent]
+  );
 
   const handleSendMessage = async () => {
     try {
