@@ -13,7 +13,6 @@ const Chat = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const messageContentRef = useRef<HTMLInputElement>(null);
   const [content, setContent] = useState("");
-  console.log("🚀 > content", content);
   const [userNickname, setUserNickname] = useState<User | null>(user);
 
   const updateMessages = (message: Message) => {
@@ -72,8 +71,34 @@ const Chat = () => {
   const handleSendMessage = async () => {
     try {
       if (user) {
+        // remove command from content
+        const contentWithoutCommand = content
+          .replace("/nick ", "")
+          .replace("/think", "");
+        let newMessage: Message = {
+          content: contentWithoutCommand,
+          userId: user.id,
+          style: null,
+        };
+
+        // commands
+        if (content?.startsWith("/nick")) {
+          const nickname = content.replace("/nick", "");
+          if (userNickname) {
+            sendNickname({ ...userNickname, nickname });
+          }
+        }
+
+        if (content?.startsWith("/think")) {
+          // set color to dark gray
+          newMessage = {
+            ...newMessage,
+            content: contentWithoutCommand,
+            style: "thinkMessage",
+          };
+        }
+
         // send message through websocket
-        const newMessage: Message = { content, userId: user.id };
         sendMessage(newMessage);
 
         // Save message to database
@@ -85,14 +110,6 @@ const Chat = () => {
         // scroll down
         messageContentRef.current?.scrollIntoView({ behavior: "smooth" });
         setMessages([...messages, newMessage]);
-
-        // commands
-        if (content?.startsWith("/nick")) {
-          const nickname = content.split(" ")[1];
-          if (userNickname) {
-            sendNickname({ ...userNickname, nickname });
-          }
-        }
       }
     } catch (error) {
       console.log("🚀 > error", error);

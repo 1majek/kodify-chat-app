@@ -26,7 +26,9 @@ const MessageDisplay: FC<Props> = ({ user, messages, messageContentRef }) => {
       {messages.map((message) => (
         <div ref={messageContentRef} key={uuidv4()} className={styles.message}>
           <div className={chatStyle(message.userId)}>
-            <span>{message.content}</span>
+            <span className={`${message.style && message.style}`}>
+              {message.content}
+            </span>
           </div>
         </div>
       ))}
