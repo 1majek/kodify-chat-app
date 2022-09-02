@@ -5,7 +5,8 @@ const socket = io(process.env.REACT_APP_API_BASE_URL || "");
 
 const useSocket = (
   updateMessages: (Message: Message) => void,
-  updateNickname: (user: User) => void
+  updateNickname: (user: User) => void,
+  updateTyping: (content: string | null) => void
 ) => {
   const room = process.env.REACT_APP_ROOM_NUMBER;
   useEffect(() => {
@@ -21,6 +22,14 @@ const useSocket = (
     socket.on("receive_nickname", (data) => {
       updateNickname(data);
     });
+
+    socket.on("receive_typing", (data) => {
+      updateTyping(data);
+    });
+
+    socket.on("receive_remove_typing", () => {
+      updateTyping(null);
+    });
   }, []);
 
   const joinRoom = () => {
@@ -35,7 +44,23 @@ const useSocket = (
     socket.emit("send_nickname", { user, room });
   };
 
-  return { sendMessage, joinRoom, room, sendNickname };
+  const onSendTyping = (nickname: string | undefined) => {
+    const message = nickname ? `${nickname} is typing` : "typing";
+    socket.emit("send_typing", { message, room });
+  };
+
+  const onRemoveTyping = () => {
+    socket.emit("remove_typing", { room });
+  };
+
+  return {
+    sendMessage,
+    joinRoom,
+    room,
+    sendNickname,
+    onSendTyping,
+    onRemoveTyping,
+  };
 };
 
 export default useSocket;

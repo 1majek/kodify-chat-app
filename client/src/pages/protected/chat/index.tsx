@@ -14,6 +14,7 @@ const Chat = () => {
   const messageContentRef = useRef<HTMLInputElement>(null);
   const [content, setContent] = useState("");
   const [userNickname, setUserNickname] = useState<User | null>(user);
+  const [typing, setTyping] = useState<string | null>(null);
 
   const updateMessages = (message: Message) => {
     setMessages((state) => [...state, message]);
@@ -23,9 +24,14 @@ const Chat = () => {
     setUserNickname(user);
   };
 
-  const { sendMessage, sendNickname } = useSocket(
+  const updateTyping = (content: string | null) => {
+    setTyping(content);
+  };
+
+  const { sendMessage, sendNickname, onSendTyping, onRemoveTyping } = useSocket(
     updateMessages,
-    updateNickname
+    updateNickname,
+    updateTyping
   );
 
   useEffect(() => {
@@ -56,6 +62,15 @@ const Chat = () => {
     messageContentRef.current?.scrollIntoView({ behavior: "smooth" });
   });
 
+  // listen to typing
+  useEffect(() => {
+    if (content) {
+      onSendTyping(userNickname?.nickname);
+    } else {
+      onRemoveTyping();
+    }
+  }, [content, onRemoveTyping, onSendTyping, userNickname?.nickname]);
+
   const clearChatInput = () => {
     setContent("");
   };
@@ -74,7 +89,8 @@ const Chat = () => {
         // remove command from content
         const contentWithoutCommand = content
           .replace("/nick ", "")
-          .replace("/think", "");
+          .replace("/think", "")
+          .replace("/oops", "");
         let newMessage: Message = {
           content: contentWithoutCommand,
           userId: user.id,
@@ -95,6 +111,14 @@ const Chat = () => {
             ...newMessage,
             content: contentWithoutCommand,
             style: "thinkMessage",
+          };
+        }
+
+        if (content?.startsWith("/oops")) {
+          newMessage = {
+            ...newMessage,
+            content: contentWithoutCommand,
+            style: null,
           };
         }
 
@@ -130,6 +154,7 @@ const Chat = () => {
           user={user}
           messages={messages}
           messageContentRef={messageContentRef}
+          typing={typing}
         />
         <div className={styles.inputWrapper}>
           <input

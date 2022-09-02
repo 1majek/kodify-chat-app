@@ -8,9 +8,15 @@ interface Props {
   user: User | null;
   messages: Message[];
   messageContentRef: React.RefObject<HTMLInputElement>;
+  typing: string | null;
 }
 
-const MessageDisplay: FC<Props> = ({ user, messages, messageContentRef }) => {
+const MessageDisplay: FC<Props> = ({
+  user,
+  messages,
+  messageContentRef,
+  typing,
+}) => {
   const chatStyle = (userId: number) =>
     classNames(
       styles.bubbleChat,
@@ -32,6 +38,7 @@ const MessageDisplay: FC<Props> = ({ user, messages, messageContentRef }) => {
           </div>
         </div>
       ))}
+      <span className={styles.typing}>{typing}</span>
     </div>
   );
 };
