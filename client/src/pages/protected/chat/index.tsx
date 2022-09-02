@@ -5,6 +5,7 @@ import { useAuth } from "../../../hook/useAuth";
 import { Message } from "../../../shared/models";
 import { axiosInstance } from "../../../utils/axios";
 import styles from "./chat.module.css";
+import useSocket from "./../../../hook/useSocket";
 
 const Chat = () => {
   const navigate = useNavigate();
@@ -13,11 +14,18 @@ const Chat = () => {
   const messageContentRef = useRef<HTMLInputElement>(null);
   const [content, setContent] = useState("");
 
+  const updateMessages = (message: Message) => {
+    setMessages((state) => [...state, message]);
+  };
+
+  const { sendMessage } = useSocket(updateMessages);
+
   useEffect(() => {
     if (!user) {
       navigate("/");
+      return;
     }
-  });
+  }, [navigate, user]);
 
   // fetch messages
   useEffect(() => {
@@ -36,6 +44,10 @@ const Chat = () => {
     fetchMessages();
   }, [user?.token]);
 
+  useEffect(() => {
+    messageContentRef.current?.scrollIntoView({ behavior: "smooth" });
+  });
+
   const clearChatInput = () => {
     setContent("");
   };
@@ -44,14 +56,11 @@ const Chat = () => {
     setContent(event.target.value);
   };
 
-  useEffect(() => {
-    messageContentRef.current?.scrollIntoView({ behavior: "smooth" });
-  });
-
   const handleSendMessage = async () => {
     try {
       if (user) {
         const newMessage: Message = { content, userId: user.id };
+        sendMessage(newMessage);
         await axiosInstance(user?.token).post<Message>(
           "/api/message/addMessage",
           newMessage

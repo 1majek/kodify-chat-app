@@ -3,6 +3,9 @@ import loginRouter from './routes/login';
 import messageRouter from './routes/message';
 import dotenv from 'dotenv';
 import cors from 'cors';
+import { Server } from 'socket.io';
+import { sendMessage } from './repo/message';
+
 dotenv.config();
 
 const app: Application = express();
@@ -17,4 +20,27 @@ app.get('/', (req: Request, res: Response, next: NextFunction) => {
 app.use('/api/auth', loginRouter);
 app.use('/api/message', messageRouter);
 
-app.listen(PORT, () => console.log(`Server running on ${PORT}`));
+const server = app.listen(PORT, () => console.log(`Server running on ${PORT}`));
+
+const io = new Server(server, {
+	cors: {
+		origin: "http://localhost:3000",
+		methods: ["GET", "POST"],
+	}
+});
+
+io.on("connection", (socket) => {
+	socket.on('join_room', (room) => {
+		console.log(`${socket.id} has joined room ${room}`);
+		socket.join(room)
+	});
+
+	socket.on('send_message', async (data) => {
+		console.log('🚀 > room', data.room)
+		console.log('🚀 > data', data);
+		socket.to(data.room).emit("receive_message", data.message);
+		// Save message to database
+		// await sendMessage(data.messsage);
+	})
+
+});
