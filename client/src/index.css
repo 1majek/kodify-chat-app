@@ -13,3 +13,18 @@ body {
 .thinkMessage {
     color: darkgray;
 }
+
+.fadeMessage {
+    opacity: 0.4;
+}
+
+.highlightMessage {
+    font-size: calc(20px + 10%);
+    filter: brightness(85%);
+    color: brown;
+}
+
+
+/* /fadelast - would fade out the last message to 10% visibility
+5. /highlight <message> - would make the font of the message 10% bigger, and make the background
+10% darker */

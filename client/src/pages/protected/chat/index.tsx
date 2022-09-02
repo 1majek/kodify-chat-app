@@ -90,6 +90,8 @@ const Chat = () => {
         const contentWithoutCommand = content
           .replace("/nick ", "")
           .replace("/think", "")
+          .replace("/fadelast", "")
+          .replace("/highlight", "")
           .replace("/oops", "");
         let newMessage: Message = {
           content: contentWithoutCommand,
@@ -111,6 +113,25 @@ const Chat = () => {
             ...newMessage,
             content: contentWithoutCommand,
             style: "thinkMessage",
+          };
+        }
+
+        if (content?.startsWith("/fadelast")) {
+          // set brightness to 10%
+          newMessage = {
+            ...newMessage,
+            content: contentWithoutCommand,
+            style: "fadeMessage",
+          };
+        }
+
+        if (content?.startsWith("/highlight")) {
+          // set font size to 10&
+          // set brightness to 10%
+          newMessage = {
+            ...newMessage,
+            content: contentWithoutCommand,
+            style: "receiver-highlight",
           };
         }
 

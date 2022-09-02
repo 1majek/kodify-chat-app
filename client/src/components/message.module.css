@@ -6,7 +6,7 @@
     background-color: white;
     overflow: auto;
     margin-bottom: 10px;
-    padding: 10px;
+    padding: 25px;
 }
 
 .message {
@@ -15,17 +15,51 @@
 }
 
 .sender {
+    position: relative;
     background-color: greenyellow;
     float: right;
+    border-radius: .4em;
+}
+
+.sender::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 50%;
+    width: 0;
+    height: 0;
+    border: 20px solid transparent;
+    border-left-color: greenyellow;
+    border-right: 0;
+    border-bottom: 0;
+    margin-top: -10px;
+    margin-right: -20px;
 }
 
 .receiver {
-    background-color: gray;
+    position: relative;
+    background-color: lightgray;
     float: left;
+    border-radius: .4em;
+}
+
+.receiver::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 0;
+    height: 0;
+    border: 20px solid transparent;
+    border-right-color: lightgray;
+    border-left: 0;
+    border-bottom: 0;
+    margin-top: -10px;
+    margin-left: -20px;
 }
 
 .bubbleChat {
-    font-size: 1.1rem;
+    font-size: 20px;
     padding: 5px 10px;
     max-width: 30%;
     overflow-wrap: break-word;
