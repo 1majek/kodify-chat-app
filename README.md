@@ -6,6 +6,7 @@ Then initialize the database base with the following command.
 
 - Run `cd server && npm run db-migrate:up`
 
+
 ### Insert 2 users to local database (inside the server directory)
 - Run `npm run seeder:up` to populate user table
 - Run `npm run seeder:down` to truncate user table
