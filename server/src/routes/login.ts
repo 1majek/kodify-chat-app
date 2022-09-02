@@ -6,9 +6,7 @@ import { findUserByEmailAndPassword } from '../repo/user';
 const loginRouter = express.Router();
 
 const generateToken = (email: string | object | Buffer): string => {
-	return jwt.sign(email, process.env.TOKEN_SECRET as string, {
-		expiresIn: '3600s'
-	})
+	return jwt.sign(email, process.env.TOKEN_SECRET as string)
 }
 
 loginRouter.post('/login', async (req: Request, res: Response, next: NextFunction) => {
