@@ -46,8 +46,4 @@ io.on("connection", (socket) => {
 		socket.to(data.room).emit("receive_typing", data.message);
 	})
 
-	socket.on('remove_typing', async (data) => {
-		socket.to(data.room).emit("receive_remove_typing");
-	})
-
 });
