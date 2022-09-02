@@ -8,7 +8,7 @@ const useSocket = (updateMessages: (Message: Message) => void) => {
   useEffect(() => {
     // join room
     if (room) {
-      joinRoom(room);
+      joinRoom();
     }
 
     socket.on("receive_message", (data) => {
@@ -17,7 +17,7 @@ const useSocket = (updateMessages: (Message: Message) => void) => {
     });
   }, []);
 
-  const joinRoom = (room: string) => {
+  const joinRoom = () => {
     socket.emit("join_room", room);
   };
 

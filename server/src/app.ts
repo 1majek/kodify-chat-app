@@ -36,11 +36,7 @@ io.on("connection", (socket) => {
 	});
 
 	socket.on('send_message', async (data) => {
-		console.log('🚀 > room', data.room)
-		console.log('🚀 > data', data);
 		socket.to(data.room).emit("receive_message", data.message);
-		// Save message to database
-		// await sendMessage(data.messsage);
 	})
 
 });
